@@ -163,6 +163,7 @@ public class DataPlotter : MonoBehaviour
         lineRenderer.endWidth = lineThickness;
         lineRenderer.SetPosition(0, start);
         lineRenderer.SetPosition(1, end);
+        lineRenderer.SetColors(Color.black, Color.black);
     }
 
 }

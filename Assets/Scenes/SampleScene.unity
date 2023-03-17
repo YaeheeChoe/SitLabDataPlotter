@@ -679,6 +679,6 @@ MonoBehaviour:
   yName: 
   zName: 
   plotScale: 20
-  lineMaterial: {fileID: 0}
+  lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   PointPrefab: {fileID: 1046608385834278, guid: 87f71974975ac764f88d0f0adacc2a38, type: 3}
   PointHolder: {fileID: 2032554211}
