@@ -5,10 +5,9 @@ using System;
 
 public class DataPlotter : MonoBehaviour
 {
-
     // Name of the input file, no extension
     public string inputfile;
-
+    
     // List for holding data from CSV reader
     private List<Dictionary<string, object>> pointList;
 
@@ -23,7 +22,9 @@ public class DataPlotter : MonoBehaviour
     public string zName;
 
     public float plotScale = 10;
-    public float lineThickness = 0.5f;
+    private float lineThickness = 0.1f;
+    public Material lineMaterial;
+
 
     // The prefab for the data points that will be instantiated
     public GameObject PointPrefab;
@@ -31,19 +32,15 @@ public class DataPlotter : MonoBehaviour
     // Object which will contain instantiated prefabs in hiearchy
     public GameObject PointHolder;
 
-    private Vector3 origin = new Vector3(0,0 ,0);
+    private Vector3 origin = new Vector3(0,0,0);
 
     // Use this for initialization
     void Start()
     {
-
         // Set pointlist to results of function Reader with argument inputfile
         pointList = CSVReader.Read(inputfile);
 
-        DrawLine(origin, Vector3.forward * 30  + origin);
-        DrawLine(origin, Vector3.right * 30  + origin);
-        DrawLine(origin, Vector3.up * 30  + origin);
-
+        DrawGrid();
         //Log to console
         Debug.Log(pointList);
 
@@ -88,7 +85,6 @@ public class DataPlotter : MonoBehaviour
                 (System.Convert.ToSingle(pointList[i][zName]) - zMin)
                 / (zMax - zMin);
 
-
             // Instantiate as gameobject variable so that it can be manipulated within loop
             GameObject dataPoint = Instantiate(
                     PointPrefab,
@@ -109,7 +105,7 @@ public class DataPlotter : MonoBehaviour
 
             // Gets material color and sets it to a new RGB color we define
             dataPoint.GetComponent<Renderer>().material.color =
-                new Color(x, y, z, 1.0f);
+              new Color(0.5f, 0.5f, 1f, 1.0f);
         }
 
     }
@@ -132,7 +128,6 @@ public class DataPlotter : MonoBehaviour
 
     private float FindMinValue(string columnName)
     {
-
         float minValue = Convert.ToSingle(pointList[0][columnName]);
 
         //Loop through Dictionary, overwrite existing minValue if new value is smaller
@@ -144,11 +139,26 @@ public class DataPlotter : MonoBehaviour
 
         return minValue;
     }
+    private void DrawGrid()
+    {
+        var inter = plotScale / 10;
+        for (var i = 1; i < 10; i++)
+        {
+            DrawLine(origin + Vector3.right *i* inter, Vector3.forward * plotScale + origin+ Vector3.right *i*inter);
+            DrawLine(origin + Vector3.up * i * inter, Vector3.forward * plotScale + origin + Vector3.up * i * inter);
+
+            DrawLine(origin + Vector3.forward * i * inter, Vector3.right * plotScale + origin + Vector3.forward * i * inter);
+            DrawLine(origin + Vector3.up * i * inter, Vector3.right * plotScale + origin + Vector3.up * i * inter);
+            DrawLine(origin + Vector3.forward * i * inter, Vector3.up * plotScale + origin + Vector3.forward * i * inter);
+            DrawLine(origin + Vector3.right * i * inter, Vector3.up * plotScale + origin + Vector3.right * i * inter);
+        }
+    }
     private void DrawLine(Vector3 start, Vector3 end)
     {
         GameObject line = new GameObject();
         line.transform.SetParent(this.transform);
         LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
+        lineRenderer.material = lineMaterial;
         lineRenderer.startWidth = lineThickness;
         lineRenderer.endWidth = lineThickness;
         lineRenderer.SetPosition(0, start);
