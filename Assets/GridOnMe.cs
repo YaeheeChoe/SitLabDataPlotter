@@ -7,7 +7,7 @@ public class GridOnMe : MonoBehaviour
     public GameObject cube;
     public int gridSizeX = 10;
     public int gridSizeY = 10;
-    public float lineThickness = 0.05f;
+    public float lineThickness = 0.1f;
     public Material lineMaterial;
 
     private void Start()
