@@ -23,6 +23,7 @@ public class DataPlotter : MonoBehaviour
     public string zName;
 
     public float plotScale = 10;
+    public float lineThickness = 0.5f;
 
     // The prefab for the data points that will be instantiated
     public GameObject PointPrefab;
@@ -30,12 +31,18 @@ public class DataPlotter : MonoBehaviour
     // Object which will contain instantiated prefabs in hiearchy
     public GameObject PointHolder;
 
+    private Vector3 origin = new Vector3(0,0 ,0);
+
     // Use this for initialization
     void Start()
     {
 
         // Set pointlist to results of function Reader with argument inputfile
         pointList = CSVReader.Read(inputfile);
+
+        DrawLine(origin, Vector3.forward * 30  + origin);
+        DrawLine(origin, Vector3.right * 30  + origin);
+        DrawLine(origin, Vector3.up * 30  + origin);
 
         //Log to console
         Debug.Log(pointList);
@@ -136,6 +143,16 @@ public class DataPlotter : MonoBehaviour
         }
 
         return minValue;
+    }
+    private void DrawLine(Vector3 start, Vector3 end)
+    {
+        GameObject line = new GameObject();
+        line.transform.SetParent(this.transform);
+        LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
+        lineRenderer.startWidth = lineThickness;
+        lineRenderer.endWidth = lineThickness;
+        lineRenderer.SetPosition(0, start);
+        lineRenderer.SetPosition(1, end);
     }
 
 }
