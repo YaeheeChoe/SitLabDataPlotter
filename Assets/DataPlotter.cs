@@ -24,6 +24,7 @@ public class DataPlotter : MonoBehaviour
     public float plotScale = 10;
     private float lineThickness = 0.1f;
     public Material lineMaterial;
+    public GameObject txtAsset;
 
 
     // The prefab for the data points that will be instantiated
@@ -50,13 +51,11 @@ public class DataPlotter : MonoBehaviour
         // Print number of keys (using .count)
         Debug.Log("There are " + columnList.Count + " columns in the CSV");
 
-        foreach (string key in columnList)
-            Debug.Log("Column name is " + key);
-
         // Assign column name from columnList to Name variables
         xName = columnList[columnX];
         yName = columnList[columnY];
         zName = columnList[columnZ];
+        Debug.Log("Column name is " +xName+", "+ yName+", "+zName);
 
         // Get maxes of each axis
         float xMax = FindMaxValue(xName);
@@ -142,15 +141,26 @@ public class DataPlotter : MonoBehaviour
     private void DrawGrid()
     {
         var inter = plotScale / 10;
-        for (var i = 1; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             DrawLine(origin + Vector3.right *i* inter, Vector3.forward * plotScale + origin+ Vector3.right *i*inter);
             DrawLine(origin + Vector3.up * i * inter, Vector3.forward * plotScale + origin + Vector3.up * i * inter);
-
             DrawLine(origin + Vector3.forward * i * inter, Vector3.right * plotScale + origin + Vector3.forward * i * inter);
             DrawLine(origin + Vector3.up * i * inter, Vector3.right * plotScale + origin + Vector3.up * i * inter);
             DrawLine(origin + Vector3.forward * i * inter, Vector3.up * plotScale + origin + Vector3.forward * i * inter);
             DrawLine(origin + Vector3.right * i * inter, Vector3.up * plotScale + origin + Vector3.right * i * inter);
+
+            GameObject txt = Instantiate(txtAsset);
+            txt.transform.SetParent(transform);
+            txt.transform.position = origin + Vector3.right * plotScale + Vector3.forward * i * inter;
+
+            GameObject txt2 = Instantiate(txtAsset);
+            txt2.transform.SetParent(transform);
+            txt2.transform.position = origin + Vector3.forward * plotScale + Vector3.right * i * inter;
+
+            GameObject txt3 = Instantiate(txtAsset);
+            txt3.transform.SetParent(transform);
+            txt3.transform.position = origin + Vector3.forward * plotScale + Vector3.up * i * inter;
         }
     }
     private void DrawLine(Vector3 start, Vector3 end)
@@ -163,7 +173,7 @@ public class DataPlotter : MonoBehaviour
         lineRenderer.endWidth = lineThickness;
         lineRenderer.SetPosition(0, start);
         lineRenderer.SetPosition(1, end);
-        lineRenderer.SetColors(Color.black, Color.black);
+        lineRenderer.SetColors(Color.gray, Color.gray);
     }
 
 }
