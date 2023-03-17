@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class DataPlotter : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class DataPlotter : MonoBehaviour
     public float plotScale = 10;
     private float lineThickness = 0.1f;
     public Material lineMaterial;
-    public GameObject txtAsset;
+    public TextMeshPro txtAsset;
 
 
     // The prefab for the data points that will be instantiated
@@ -35,13 +36,15 @@ public class DataPlotter : MonoBehaviour
 
     private Vector3 origin = new Vector3(0,0,0);
 
+    private float xMax;
+    private float yMax;
+    private float zMax;
     // Use this for initialization
     void Start()
     {
         // Set pointlist to results of function Reader with argument inputfile
         pointList = CSVReader.Read(inputfile);
 
-        DrawGrid();
         //Log to console
         Debug.Log(pointList);
 
@@ -58,9 +61,11 @@ public class DataPlotter : MonoBehaviour
         Debug.Log("Column name is " +xName+", "+ yName+", "+zName);
 
         // Get maxes of each axis
-        float xMax = FindMaxValue(xName);
-        float yMax = FindMaxValue(yName);
-        float zMax = FindMaxValue(zName);
+        xMax = FindMaxValue(xName);
+        yMax = FindMaxValue(yName);
+        zMax = FindMaxValue(zName);
+
+        DrawGrid();
 
         // Get minimums of each axis
         //float xMin = FindMinValue(xName);
@@ -142,7 +147,7 @@ public class DataPlotter : MonoBehaviour
     private void DrawGrid()
     {
         var inter = plotScale / 10;
-        for (var i = 0; i < 10; i++)
+        for (var i = 1; i <= 10; i++)
         {
             DrawLine(origin + Vector3.right *i* inter, Vector3.forward * plotScale + origin+ Vector3.right *i*inter);
             DrawLine(origin + Vector3.up * i * inter, Vector3.forward * plotScale + origin + Vector3.up * i * inter);
@@ -151,17 +156,22 @@ public class DataPlotter : MonoBehaviour
             DrawLine(origin + Vector3.forward * i * inter, Vector3.up * plotScale + origin + Vector3.forward * i * inter);
             DrawLine(origin + Vector3.right * i * inter, Vector3.up * plotScale + origin + Vector3.right * i * inter);
 
-            GameObject txt = Instantiate(txtAsset);
-            txt.transform.SetParent(transform);
-            txt.transform.position = origin + Vector3.right * plotScale + Vector3.forward * i * inter;
+            TextMeshPro txt = Instantiate(txtAsset);
+            txt.gameObject.transform.SetParent(transform);
+            txt.gameObject.transform.position = origin + Vector3.right * plotScale + Vector3.forward * i * inter;
+            txt.text = Math.Floor(xMax * i/10).ToString();
+            
+            TextMeshPro txt2 = Instantiate(txtAsset);
+            txt2.gameObject.transform.SetParent(transform);
+            txt2.gameObject.transform.position = origin + Vector3.forward * plotScale + Vector3.right * i * inter;
+            txt2.text = Math.Floor(zMax * i/10).ToString();
 
-            GameObject txt2 = Instantiate(txtAsset);
-            txt2.transform.SetParent(transform);
-            txt2.transform.position = origin + Vector3.forward * plotScale + Vector3.right * i * inter;
 
-            GameObject txt3 = Instantiate(txtAsset);
-            txt3.transform.SetParent(transform);
-            txt3.transform.position = origin + Vector3.forward * plotScale + Vector3.up * i * inter;
+            TextMeshPro txt3 = Instantiate(txtAsset);
+            txt3.gameObject.transform.SetParent(transform);
+            txt3.gameObject.transform.position = origin + Vector3.forward * plotScale + Vector3.up * i * inter;
+            txt3.text = Math.Floor(yMax * i/10).ToString();
+
         }
     }
     private void DrawLine(Vector3 start, Vector3 end)

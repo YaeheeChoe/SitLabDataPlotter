@@ -671,7 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9752de3bf5dbd429cf3e589f8872b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputfile: wine
+  inputfile: wine30
   columnX: 0
   columnY: 9
   columnZ: 12
@@ -680,5 +680,6 @@ MonoBehaviour:
   zName: 
   plotScale: 20
   lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  txtAsset: {fileID: 2924087033248869570, guid: b2422a65eb5259d4c9ba40e2b401f166, type: 3}
   PointPrefab: {fileID: 1046608385834278, guid: 87f71974975ac764f88d0f0adacc2a38, type: 3}
   PointHolder: {fileID: 2032554211}
