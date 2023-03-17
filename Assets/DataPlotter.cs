@@ -63,9 +63,10 @@ public class DataPlotter : MonoBehaviour
         float zMax = FindMaxValue(zName);
 
         // Get minimums of each axis
-        float xMin = FindMinValue(xName);
-        float yMin = FindMinValue(yName);
-        float zMin = FindMinValue(zName);
+        //float xMin = FindMinValue(xName);
+        //float yMin = FindMinValue(yName);
+        //float zMin = FindMinValue(zName);
+        Debug.Log("Column Max is " + xMax + ", " + yMax + ", " + zMax);
 
 
         //Loop through Pointlist
@@ -73,16 +74,16 @@ public class DataPlotter : MonoBehaviour
         {
             // Get value in poinList at ith "row", in "column" Name, normalize
             float x =
-                (System.Convert.ToSingle(pointList[i][xName]) - xMin)
-                / (xMax - xMin);
+                (System.Convert.ToSingle(pointList[i][xName]) )
+                / (xMax );
 
             float y =
-                (System.Convert.ToSingle(pointList[i][yName]) - yMin)
-                / (yMax - yMin);
+                (System.Convert.ToSingle(pointList[i][yName]) )
+                / (yMax );
 
             float z =
-                (System.Convert.ToSingle(pointList[i][zName]) - zMin)
-                / (zMax - zMin);
+                (System.Convert.ToSingle(pointList[i][zName]) )
+                / (zMax);
 
             // Instantiate as gameobject variable so that it can be manipulated within loop
             GameObject dataPoint = Instantiate(
