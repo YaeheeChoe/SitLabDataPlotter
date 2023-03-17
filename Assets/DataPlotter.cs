@@ -109,8 +109,7 @@ public class DataPlotter : MonoBehaviour
             dataPoint.transform.name = dataPointName;
 
             // Gets material color and sets it to a new RGB color we define
-            dataPoint.GetComponent<Renderer>().material.color =
-              new Color(0.5f, 0.5f, 1f, 1.0f);
+            dataPoint.GetComponent<Renderer>().material.color = new Color32(184, 15, 130,255);
         }
 
     }
@@ -147,6 +146,23 @@ public class DataPlotter : MonoBehaviour
     private void DrawGrid()
     {
         var inter = plotScale / 10;
+
+        TextMeshPro xn = Instantiate(txtAsset);
+        xn.gameObject.transform.SetParent(transform);
+        xn.gameObject.transform.position = origin + Vector3.right * plotScale + Vector3.forward * plotScale;
+        xn.text = xName;
+
+        TextMeshPro zn = Instantiate(txtAsset);
+        zn.gameObject.transform.SetParent(transform);
+        zn.gameObject.transform.position = origin + Vector3.forward * plotScale ;
+        zn.text = zName;
+
+
+        TextMeshPro yn = Instantiate(txtAsset);
+        yn.gameObject.transform.SetParent(transform);
+        yn.gameObject.transform.position = origin + Vector3.forward * plotScale + Vector3.up * plotScale;
+        yn.text = yName;
+
         for (var i = 1; i <= 10; i++)
         {
             DrawLine(origin + Vector3.right *i* inter, Vector3.forward * plotScale + origin+ Vector3.right *i*inter);
