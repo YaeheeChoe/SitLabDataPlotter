@@ -149,19 +149,23 @@ public class DataPlotter : MonoBehaviour
 
         TextMeshPro xn = Instantiate(txtAsset);
         xn.gameObject.transform.SetParent(transform);
-        xn.gameObject.transform.position = origin + Vector3.right * plotScale + Vector3.forward * plotScale;
+        xn.gameObject.transform.position = origin + Vector3.right * plotScale ;
         xn.text = xName;
+        xn.color = Color.blue;
 
         TextMeshPro zn = Instantiate(txtAsset);
         zn.gameObject.transform.SetParent(transform);
-        zn.gameObject.transform.position = origin + Vector3.forward * plotScale ;
-        zn.text = zName;
+        zn.gameObject.transform.position = origin + Vector3.forward * plotScale + Vector3.right * plotScale;
+        zn.text = "      " +zName;
+        zn.color = Color.blue;
 
 
         TextMeshPro yn = Instantiate(txtAsset);
         yn.gameObject.transform.SetParent(transform);
         yn.gameObject.transform.position = origin + Vector3.forward * plotScale + Vector3.up * plotScale;
-        yn.text = yName;
+        yn.text = "    " + yName;
+        yn.color = Color.blue;
+
 
         for (var i = 1; i <= 10; i++)
         {
